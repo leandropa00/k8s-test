@@ -1,0 +1,37 @@
+services:
+  app:
+    build: .
+    container_name: app_container
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/biblioteca
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pass
+    ports:
+      - "8080:8080"
+    networks:
+      - library_network
+
+  mysql:
+    image: mysql:8.4.7
+    container_name: mysql_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: biblioteca
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - library_network
+
+volumes:
+  mysql_data:
+
+networks:
+  library_network:

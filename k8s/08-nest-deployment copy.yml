@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nest-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nest
+  template:
+    metadata:
+      labels:
+        app: nest
+    spec:
+      containers:
+        - name: nest
+          image: nestapi:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
